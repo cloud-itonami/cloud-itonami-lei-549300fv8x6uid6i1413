@@ -20,6 +20,22 @@ Advisor/Governor actor. Part of the worldwide-scope extension (batch ASIA-UTIL-1
 - `80-data/public/tos.journal.edn` — EDN quad-log of the archived Terms & Conditions.
 - `NOTICE` — copyright/attribution statement.
 - `blueprint.edn` — machine-readable company identity record.
+- `facts.edn` — cited GLEIF registry facts (see below).
+
+## Cited registry facts
+
+`facts.edn` records what GLEIF publishes about this LEI — the entity record, its
+managing LOU, its ISO 20275 legal form, its parent-reporting exceptions at both
+consolidation levels (NON_CONSOLIDATING), its two instrument identifiers and its
+one direct child (TNB GLOBAL VENTURES CAPITAL BERHAD) — with `:source/url` and
+`:source/retrieved-at` next to every value.
+
+`nbb scripts/verify-facts.cljs` re-fetches those sources and compares. It exits
+`0` when the live registry still agrees, `1` when a citation is dead or a value
+drifted, and `3` when it could not check at all (sources unreachable, `facts.edn`
+missing or unreadable) — a run that could not answer must not look like a pass.
+`--write` regenerates the file through the same builder the check uses, so it
+cannot drift from its own generator.
 
 ## Design rationale
 
